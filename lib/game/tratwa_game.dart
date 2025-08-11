@@ -1,11 +1,10 @@
-import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import '../world/ocean.dart';
 import '../world/raft.dart';
 import '../ui/minimap.dart';
 
 /// Glowna klasa gry zarzadzajaca wszystkimi komponentami.
-class TratwaGame extends FlameGame with HasDraggables, HasTappables, HasKeyboardHandlerComponents {
+class TratwaGame extends FlameGame {
   late Raft raft;
   late Minimap minimap;
 

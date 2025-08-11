@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/painting.dart';
 import 'ocean.dart';
@@ -28,7 +27,7 @@ class Raft extends PositionComponent with KeyboardHandler {
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     velocity.setValues(0, 0);
     if (keysPressed.contains(LogicalKeyboardKey.keyW) ||
         keysPressed.contains(LogicalKeyboardKey.arrowUp)) {

@@ -23,12 +23,8 @@ class Minimap extends PositionComponent {
     canvas.drawCircle(
         center, Ocean.islandRadius * mapScale, BasicPalette.green.paint());
     // Pozycja tratwy
-    final player =
-        center + Offset(raft.position.x * mapScale, raft.position.y * mapScale);
+    final player = center +
+        Offset(raft.body.position.x * mapScale, raft.body.position.y * mapScale);
     canvas.drawCircle(player, 2, BasicPalette.red.paint());
-  }
-
-  void updatePlayerPosition(Vector2 pos) {
-    // Metoda zachowana dla zgodnosci; aktualizacja wykonywana w render.
   }
 }

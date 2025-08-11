@@ -1,22 +1,26 @@
-import 'package:flame/components.dart';
-import 'package:flutter/services.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/painting.dart';
-import 'ocean.dart';
+import 'package:flame/components.dart';
 
 /// Komponent reprezentujacy tratwe gracza wraz z logika ruchu.
-class Raft extends PositionComponent with KeyboardHandler {
-  static const double speed = 150;
+class Raft extends BodyComponent {
+  static const double speed = 200;
   final Paint _paint = Paint()..color = const Color(0xFF964B00);
-  Vector2 velocity = Vector2.zero();
 
   @override
-  void update(double dt) {
-    super.update(dt);
-    position += velocity * dt;
-    final double distance = position.length;
-    if (distance > Ocean.mapRadius) {
-      position = position.normalized() * Ocean.mapRadius;
-    }
+  Body createBody() {
+    final bodyDef = BodyDef(
+      position: Vector2.zero(),
+      type: BodyType.dynamic,
+      linearDamping: 0.5, // Opór wody
+    );
+    final fixtureDef = FixtureDef(
+      PolygonShape()..setAsBoxXY(20, 20),
+      restitution: 0.4,
+      density: 1.0,
+      friction: 0.2,
+    );
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   @override
@@ -26,29 +30,11 @@ class Raft extends PositionComponent with KeyboardHandler {
     canvas.drawRect(rect, _paint);
   }
 
-  @override
-  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    velocity.setValues(0, 0);
-    if (keysPressed.contains(LogicalKeyboardKey.keyW) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
-      velocity.y = -1;
-    }
-    if (keysPressed.contains(LogicalKeyboardKey.keyS) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowDown)) {
-      velocity.y = 1;
-    }
-    if (keysPressed.contains(LogicalKeyboardKey.keyA) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      velocity.x = -1;
-    }
-    if (keysPressed.contains(LogicalKeyboardKey.keyD) ||
-        keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      velocity.x = 1;
-    }
-    if (velocity.length2 > 0) {
-      velocity.normalize();
-      velocity *= speed;
-    }
-    return true;
+  void move(Vector2 delta) {
+    body.applyLinearImpulse(delta * speed);
+  }
+
+  void stop() {
+    body.linearVelocity = Vector2.zero();
   }
 }

@@ -1,0 +1,14 @@
+name: tratwa
+description: Prototyp gry mobilnej "Tratwa" w Flutter z użyciem Flame.
+version: 0.1.0
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flame: ^1.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
